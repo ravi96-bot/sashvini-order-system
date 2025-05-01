@@ -3,7 +3,7 @@ self.addEventListener('install', function (e) {
     caches.open('sashvini-store').then(function (cache) {
       return cache.addAll([
         '/',
-        '/nsp.html',
+        '/index.html',
         '/icon-192.png',
         '/icon-512.png',
         '/manifest.json'
