@@ -140,7 +140,7 @@
   }
 
   async function loadProductsFromGitHub() {
-    const url = "https://github.com/ravi96-bot/sashvini-order-system/blob/main/product.csv"; // CHANGE ME!
+    const url = "https://raw.githubusercontent.com/ravi96-bot/sashvini-order-system/refs/heads/main/product.csv"; // CHANGE ME!
     try {
       const response = await fetch(url);
       const text = await response.text();
