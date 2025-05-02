@@ -8,6 +8,34 @@
 <meta name="theme-color" content="#3498db">
   <title>Sashvini Pharmaa Order System</title>
   <style>
+    body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+body.dark .splash {
+  background-color: #121212;
+}
+body.dark .dash-button,
+body.dark button,
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #555;
+}
+body.dark table, 
+body.dark th, 
+body.dark td {
+  background-color: #1e1e1e;
+  color: #fff;
+  border-color: #555;
+}
+body.dark .search-results {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
     body { margin: 0; font-family: sans-serif; background-color: #f9f9f9; }
     .splash {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -63,6 +91,7 @@
   </style>
 </head>
 <body>
+<button onclick="toggleDarkMode()" id="themeToggle" style="position: fixed; top: 10px; right: 10px; z-index: 10000;">🌙 Dark Mode</button>
 
   <div class="splash" id="splash">
     <h1>Sashvini Pharmaa Order System</h1>
