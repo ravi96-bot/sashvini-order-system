@@ -9,39 +9,7 @@
 <meta name="theme-color" content="#3498db">
   <title>Sashvini Pharmaa Order System</title>
   <style>
-.switch {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 10000;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-.switch input { display: none; }
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 34px;
-}
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px; width: 26px;
-  left: 4px; bottom: 4px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-input:checked + .slider {
-  background-color: #2196F3;
-}
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
+
 
 
     body { margin: 0; font-family: sans-serif; background-color: #f9f9f9; }
@@ -99,10 +67,7 @@ input:checked + .slider:before {
   </style>
 </head>
 <body>
-<label class="switch">
-  <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-  <span class="slider round"></span>
-</label>
+
 
 
 
@@ -155,19 +120,6 @@ input:checked + .slider:before {
 
   <script>
 
-function toggleDarkMode() {
-  const isDark = document.getElementById("darkModeToggle").checked;
-  document.body.classList.toggle("dark", isDark);
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-}
-
-// Apply saved theme on load
-window.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
-  const isDark = savedTheme === "dark";
-  document.body.classList.toggle("dark", isDark);
-  document.getElementById("darkModeToggle").checked = isDark;
-});
 
 
    if ('serviceWorker' in navigator) {
