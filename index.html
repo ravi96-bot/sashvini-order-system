@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
+  <label class="theme-switch">
+  <input type="checkbox" id="themeCheckbox" onchange="toggleDarkMode()">
+  <span class="slider"></span>
+</label>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
@@ -8,7 +13,46 @@
 <meta name="theme-color" content="#3498db">
   <title>Sashvini Pharmaa Order System</title>
   <style>
- 
+ .theme-switch {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  z-index: 10000;
+}
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 34px;
+  top: 0; left: 0; right: 0; bottom: 0;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
 
     body { margin: 0; font-family: sans-serif; background-color: #f9f9f9; }
     .splash {
@@ -117,7 +161,20 @@
 
   <script>
 
-  
+  function toggleDarkMode() {
+  const isDark = document.getElementById("themeCheckbox").checked;
+  document.body.classList.toggle("dark", isDark);
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const theme = localStorage.getItem("theme");
+  if (theme === "dark") {
+    document.body.classList.add("dark");
+    document.getElementById("themeCheckbox").checked = true;
+  }
+});
+
 
    if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
