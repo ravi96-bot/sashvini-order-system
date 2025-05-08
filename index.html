@@ -4,11 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png" type="image/png">
-<meta name="theme-color" content="#3498db">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <meta name="theme-color" content="#3498db">
   <title>Sashvini Pharmaa Order System</title>
   <style>
-
     body { margin: 0; font-family: sans-serif; background-color: #f9f9f9; }
     .splash {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -65,9 +64,6 @@
 </head>
 <body>
 
-
-
-
   <div class="splash" id="splash">
     <h1>Sashvini Pharmaa Order System</h1>
   </div>
@@ -76,8 +72,6 @@
     <h2>Dashboard</h2>
     <div class="dash-buttons">
       <button class="dash-button" onclick="showOrder()">Order</button>
-      <button class="dash-button" onclick="showEdit()">Edit</button>
-       <button class="dash-button" onclick="showProducts()">Products</button>
     </div>
   </div>
 
@@ -104,31 +98,17 @@
     <button class="back-btn" onclick="goToDashboard()">Back</button>
   </div>
 
-  <div class="edit-section" id="editSection">
-    <input type="file" id="csvFile" accept=".csv">
-    <button onclick="uploadCSV()">Upload CSV</button>
-    <h3>Add New Product</h3>
-    <input type="text" id="newProductName" placeholder="Product Name">
-    <input type="text" id="newProductPrice" placeholder="Product Price">
-    <button onclick="addSingleProduct()">Add Product</button>
-    <button class="clear-btn" onclick="clearProductList()">Clear</button>
-    <button class="back-btn" onclick="goToDashboard()">Back</button>
-  </div>
-
   <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("Service Worker Registered"));
+    }
 
-
-
-   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log("Service Worker Registered"));
-  }
-    let productMap = JSON.parse(localStorage.getItem("productMap")) || {};
+    let productMap = {};
 
     const splash = document.getElementById("splash");
     const dashboard = document.getElementById("dashboard");
     const orderSection = document.getElementById("orderSection");
-    const editSection = document.getElementById("editSection");
 
     setTimeout(() => {
       splash.classList.add("hidden");
@@ -140,49 +120,9 @@
       orderSection.style.display = "flex";
     }
 
-    function showEdit() {
-      dashboard.style.display = "none";
-      editSection.style.display = "flex";
-    }
-
     function goToDashboard() {
       orderSection.style.display = "none";
-      editSection.style.display = "none";
       dashboard.style.display = "flex";
-    }
-
-    function saveProducts() {
-      localStorage.setItem("productMap", JSON.stringify(productMap));
-    }
-
-    function uploadCSV() {
-      const file = document.getElementById("csvFile").files[0];
-      if (!file) return alert("Choose a CSV file");
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const lines = e.target.result.trim().split("\n");
-        lines.forEach(line => {
-          const [name, price] = line.split(",");
-          if (name && price) productMap[name.trim()] = price.trim();
-        });
-        saveProducts();
-        alert("CSV Uploaded!");
-      };
-      reader.readAsText(file);
-    }
-
-    function addSingleProduct() {
-      const name = document.getElementById("newProductName").value.trim();
-      const price = document.getElementById("newProductPrice").value.trim();
-      if (name && price) {
-        productMap[name] = price;
-        saveProducts();
-        alert("Product added!");
-        document.getElementById("newProductName").value = "";
-        document.getElementById("newProductPrice").value = "";
-      } else {
-        alert("Please enter product name and price.");
-      }
     }
 
     function filterProducts() {
@@ -237,11 +177,24 @@
       document.getElementById("price").value = "";
     }
 
-    function clearProductList() {
-      productMap = {};
-      saveProducts();
-      alert("Product list cleared!");
+    // Load products from CSV file
+    function loadProductCSV() {
+      fetch('products.csv')
+        .then(response => response.text())
+        .then(data => {
+          const lines = data.split("\n");
+          lines.forEach(line => {
+            const [name, price] = line.trim().split(",");
+            if (name && price) productMap[name] = price;
+          });
+          console.log("Products loaded:", productMap);
+        })
+        .catch(err => console.error("Failed to load product list:", err));
     }
+
+    window.onload = () => {
+      loadProductCSV();
+    };
   </script>
 </body>
 </html>
