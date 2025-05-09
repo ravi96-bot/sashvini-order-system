@@ -98,6 +98,13 @@
     <button class="clear-btn" onclick="clearOrder()">Clear</button>
     <button class="back-btn" onclick="goToDashboard()">Back</button>
   </div>
+<div class="edit-section" id="editSection">
+  <h2>Add New Product</h2>
+  <input type="text" id="newProductName" placeholder="Product Name">
+  <input type="number" id="newProductPrice" placeholder="Price">
+  <button onclick="saveNewProduct()">Save Product</button>
+  <button class="back-btn" onclick="goToDashboard()">Back</button>
+</div>
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -115,6 +122,32 @@
       splash.classList.add("hidden");
       dashboard.style.display = "flex";
     }, 1500);
+
+    function showEdit() {
+  dashboard.style.display = "none";
+  editSection.style.display = "flex";
+}
+
+function saveNewProduct() {
+  const name = document.getElementById("newProductName").value.trim();
+  const price = document.getElementById("newProductPrice").value.trim();
+
+  if (!name || !price) return alert("Enter product name and price");
+
+  fetch('/add-product', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ name, price })
+  })
+  .then(res => res.text())
+  .then(msg => {
+    alert(msg);
+    document.getElementById("newProductName").value = "";
+    document.getElementById("newProductPrice").value = "";
+    loadProductCSV(); // Refresh product list
+  })
+  .catch(err => alert("Failed to save product"));
+}
 
     function showOrder() {
       dashboard.style.display = "none";
